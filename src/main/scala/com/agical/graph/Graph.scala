@@ -54,8 +54,13 @@ case class BreadthFirst[N](override val constraint:Edge[N] => Boolean) extends T
   }
 }
 
-case class Edge[N](from:N, to:N) {
-  def sameEdge(from: N, to: N) = Edge(from, to)
+class Edge[N](val from:N, val to:N) {
+  def apply[N](from:N, to: N) = new Edge[N](from, to)
+  def sameEdge(from: N, to: N) = new Edge(from, to)
+}
+
+object Edge {
+  def unapply[N](e: Edge[N]) = Some((e.from, e.to))
 }
 
 class Graph[N](private val indexes:Map[String, Map[Any, Set[N]]], 
