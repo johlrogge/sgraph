@@ -108,7 +108,7 @@ class Graph[N](private val indexes:Map[String, Map[Any, Set[N]]],
   
   private def add(node:N, attrs:Option[Map[String, Any]]):Graph[N] = {
     attrs.map(attributes => {
-        val newAttributes = this.attributes.update(node, attributes)
+        val newAttributes = this.attributes.updated(node, attributes)
         val newIndexes = (indexes /: attributes)((res, e) => {
           res.get(e._1) match {
             case Some(idx) => idx.get(e._2) match {
@@ -138,7 +138,7 @@ class Graph[N](private val indexes:Map[String, Map[Any, Set[N]]],
   private def updateIndex(key:N, edge:Edge[N], index:Map[N, Set[Edge[N]]]) = {
       val edgesForNode = index.getOrElse(key, Set())
       val removedEdges = index - key
-      removedEdges.update(key, edgesForNode + edge)
+      removedEdges.updated(key, edgesForNode + edge)
   }
   
   private def doFind[R](expression:Expression[N,R]):Set[R] = { 
